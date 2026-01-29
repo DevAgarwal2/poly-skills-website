@@ -67,22 +67,7 @@ const { title, description = "Polymarket Agent Skills Directory" } = Astro.props
         justifyContent: 'space-between'
       }}>
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            borderRadius: '10px',
-            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%)',
-            border: '1px solid rgba(59, 130, 246, 0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <svg style={{ width: '20px', height: '20px', color: '#60a5fa' }} viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <img src="/logo.svg" alt="Polymarket Skills" style={{ width: '40px', height: '40px' }} />
           <div>
             <span style={{ fontSize: '16px', fontWeight: '700', color: '#ffffff', display: 'block' }}>Polymarket</span>
             <span style={{ fontSize: '12px', color: '#71717a', display: 'block', marginTop: '-2px' }}>Skills</span>
@@ -90,7 +75,7 @@ const { title, description = "Polymarket Agent Skills Directory" } = Astro.props
         </a>
 
         <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <a href="https://github.com/anthropics/skills" target="_blank" style={{
+          <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" style={{
             fontSize: '13px',
             color: '#71717a',
             padding: '8px 14px',
@@ -161,7 +146,7 @@ const { title, description = "Polymarket Agent Skills Directory" } = Astro.props
           <div>
             <h4 style={{ fontSize: '12px', fontWeight: '600', color: '#e5e5e5', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Resources</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <a href="https://github.com/anthropics/mcp" target="_blank" style={{ fontSize: '13px', color: '#71717a', transition: 'color 0.2s' }}>MCP Documentation</a>
+              <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" style={{ fontSize: '13px', color: '#71717a', transition: 'color 0.2s' }}>MCP Documentation</a>
               <a href="https://github.com/DevAgarwal2/poly-skills-website" target="_blank" style={{ fontSize: '13px', color: '#71717a', transition: 'color 0.2s' }}>GitHub Repository</a>
             </div>
           </div>
