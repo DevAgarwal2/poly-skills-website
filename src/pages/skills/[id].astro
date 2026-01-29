@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SkillIDE from '../../components/SkillIDE.jsx';
+import skills from '../../data/skills.json';
+
+export function getStaticPaths() {
+  return skills.map((skill) => ({
+    params: { id: skill.id },
+    props: { skill },
+  }));
+}
+
+const { skill } = Astro.props;
+---
+
+<Layout title={skill.name}>
+  <SkillIDE skill={skill} client:load />
+</Layout>
