@@ -342,6 +342,19 @@
       "views": 0,
       "downloads": 0
     },
-    "comingSoon": true
+    "comingSoon": true,
+    "fileTree": [
+      {
+        "name": "src",
+        "type": "folder",
+        "children": [
+          {
+            "name": "skills.py",
+            "type": "file",
+            "path": "src/skills.py"
+          }
+        ]
+      }
+    ]
   }
 ]
