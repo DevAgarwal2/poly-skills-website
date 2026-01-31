@@ -17,9 +17,9 @@ import {
   ClipboardCopy,
   Archive,
   Terminal,
-  Hash
+  Hash,
+  Box
 } from 'lucide-react';
-import { marked } from 'marked';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import python from 'react-syntax-highlighter/dist/cjs/languages/prism/python';
 import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
@@ -32,11 +32,6 @@ SyntaxHighlighter.registerLanguage('python', python.default || python);
 SyntaxHighlighter.registerLanguage('json', json.default || json);
 SyntaxHighlighter.registerLanguage('bash', bash.default || bash);
 SyntaxHighlighter.registerLanguage('md', markdown.default || markdown);
-
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-});
 
 const Dropdown = ({ trigger, items, onSelect, align = 'left' }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +51,7 @@ const Dropdown = ({ trigger, items, onSelect, align = 'left' }) => {
     <div className="relative" ref={dropdownRef}>
       <div onClick={() => setIsOpen(!isOpen)}>{trigger}</div>
       {isOpen && (
-        <div className={`absolute ${align === 'right' ? 'right-0' : 'left-0'} top-full mt-2 w-52 bg-[#12121a] border border-blue-500/20 rounded-lg shadow-xl z-50 py-1.5 animate-in fade-in zoom-in-95 duration-150`}>
+        <div className={`absolute ${align === 'right' ? 'right-0' : 'left-0'} top-full mt-2 w-52 bg-[#111] border border-[#333] rounded-lg shadow-xl z-50 py-1.5`}>
           {items.map((item, idx) => (
             <button
               key={idx}
@@ -65,10 +60,10 @@ const Dropdown = ({ trigger, items, onSelect, align = 'left' }) => {
                 setIsOpen(false);
               }}
               disabled={item.loading}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-400 hover:bg-blue-500/5 hover:text-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-[#222] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {item.loading ? (
-                <span className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <span className="text-gray-500">{item.icon}</span>
               )}
@@ -130,17 +125,19 @@ const InstallDropdown = ({ skill }) => {
   return (
     <>
       {showToast && (
-        <div className="fixed top-20 right-6 z-50 bg-blue-900/90 text-white px-4 py-2.5 rounded-lg shadow-lg animate-in fade-in slide-in-from-top-2 duration-200 flex items-center gap-2 border border-blue-500/30">
-          <Check className="w-4 h-4" />
+        <div className="fixed top-20 right-6 z-50 bg-[#111] text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 border border-[#333]">
+          <div className="w-5 h-5 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20">
+            <Check className="w-3 h-3 text-green-500" />
+          </div>
           {showToast}
         </div>
       )}
       <Dropdown
         trigger={
-          <button className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-blue-500 hover:bg-blue-400 text-white font-medium transition-all cursor-pointer shadow-lg shadow-blue-500/20">
+          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white text-black font-medium hover:bg-gray-100 transition-colors cursor-pointer text-sm">
             <Download className="w-4 h-4" />
             Download
-            <ChevronDown className="w-4 h-4 opacity-70" />
+            <ChevronDown className="w-4 h-4 opacity-50" />
           </button>
         }
         items={installItems}
@@ -177,17 +174,17 @@ const AICopyDropdown = ({ content, selectedFile }) => {
   return (
     <button 
       onClick={handleCopy}
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 font-medium border border-blue-500/20 transition-all text-sm cursor-pointer"
+      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#222] hover:bg-[#333] text-gray-300 font-medium border border-[#333] transition-all text-xs cursor-pointer"
     >
       {copied ? (
         <>
-          <Check className="w-4 h-4" />
-          Copied!
+          <Check className="w-3.5 h-3.5 text-green-500" />
+          Copied
         </>
       ) : (
         <>
-          <ClipboardCopy className="w-4 h-4" />
-          Copy Page
+          <ClipboardCopy className="w-3.5 h-3.5" />
+          Copy
         </>
       )}
     </button>
@@ -243,20 +240,20 @@ const FileTreeNode = ({ node, level = 0, onSelect, selectedFile, path = '' }) =>
     return (
       <div className="mb-0.5">
         <div 
-          className="flex items-center gap-1.5 py-1.5 px-3 hover:bg-blue-500/5 cursor-pointer text-gray-500 hover:text-blue-400 transition-colors select-none text-sm group rounded-md mx-2"
+          className="flex items-center gap-1.5 py-1.5 px-3 hover:bg-[#1a1a1a] cursor-pointer text-gray-500 hover:text-gray-300 transition-colors select-none text-sm group rounded-md mx-2"
           style={{ paddingLeft: `${level * 12 + 12}px` }}
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? (
-            <ChevronDown className="w-3.5 h-3.5 text-blue-500/60 group-hover:text-blue-400 transition-colors" />
+            <ChevronDown className="w-3.5 h-3.5 text-gray-600 group-hover:text-gray-400 transition-colors" />
           ) : (
-            <ChevronRight className="w-3.5 h-3.5 text-blue-500/60 group-hover:text-blue-400 transition-colors" />
+            <ChevronRight className="w-3.5 h-3.5 text-gray-600 group-hover:text-gray-400 transition-colors" />
           )}
-          <Folder className="w-4 h-4 text-blue-500/60 group-hover:text-blue-400 transition-colors" />
-          <span className="font-medium">{node.name}</span>
+          <Folder className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" />
+          <span className="font-medium text-gray-400 group-hover:text-gray-200">{node.name}</span>
         </div>
         {isOpen && node.children && (
-          <div className="border-l border-white/5 ml-[22px]">
+          <div className="border-l border-[#222] ml-[22px]">
              {node.children.map((child) => (
               <FileTreeNode 
                 key={child.path || child.name} 
@@ -278,8 +275,8 @@ const FileTreeNode = ({ node, level = 0, onSelect, selectedFile, path = '' }) =>
       className={`
         flex items-center gap-2 py-1.5 px-3 cursor-pointer text-sm transition-all duration-150 rounded-md mx-2 mb-0.5
         ${isSelected 
-          ? 'bg-blue-500/10 text-blue-400 border-blue-500/30 border-r-2' 
-          : 'border-r-2 border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'
+          ? 'bg-[#1a1a1a] text-white border border-[#333]' 
+          : 'border border-transparent text-gray-500 hover:bg-[#111] hover:text-gray-300'
         }
       `}
       style={{ paddingLeft: `${level * 12 + 12}px` }}
@@ -287,124 +284,6 @@ const FileTreeNode = ({ node, level = 0, onSelect, selectedFile, path = '' }) =>
     >
       <FileIcon name={node.name} />
       <span>{node.name}</span>
-    </div>
-  );
-};
-
-const TableOfContents = ({ content }) => {
-  const [headings, setHeadings] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(-1);
-
-  useEffect(() => {
-    if (!content) return;
-    
-    const lines = content.split('\n');
-    const extractedHeadings = lines
-      .filter(line => line.startsWith('#'))
-      .map((line, index) => {
-        const levelMatch = line.match(/^#+/);
-        if (!levelMatch) return null;
-        const level = levelMatch[0].length;
-        const text = line.replace(/^#+\s+/, '').replace(/\*\*/g, '').replace(/`/g, '').trim();
-        return { level, text, index };
-      })
-      .filter(Boolean);
-    
-    setHeadings(extractedHeadings);
-  }, [content]);
-
-  const scrollToHeading = (headingIndex) => {
-    const headingEl = document.getElementById(`heading-${headingIndex}`);
-    if (headingEl) {
-      const offset = 120;
-      const elementPosition = headingEl.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: 'smooth'
-      });
-      setActiveIndex(headingIndex);
-    }
-  };
-
-  if (headings.length === 0) return null;
-
-  return (
-    <div className="hidden xl:block w-72 flex-shrink-0 border-l border-white/5 h-[calc(100vh-64px)] overflow-y-auto sticky top-16 custom-scrollbar bg-[#0B0C15]/50 backdrop-blur-sm">
-      <div className="p-6">
-        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">On This Page</h3>
-        <div className="space-y-1 relative">
-           <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-white/5"></div>
-           
-           {headings.map((heading, idx) => (
-            <button
-              key={idx}
-              onClick={() => scrollToHeading(heading.index)}
-              className={`
-                block w-full text-left text-sm transition-all duration-200 pl-3 border-l-2 -ml-[1px] py-1
-                ${activeIndex === heading.index 
-                  ? 'border-blue-500 text-blue-400 font-medium' 
-                  : 'border-transparent text-gray-500 hover:text-gray-300 hover:border-gray-600'
-                }
-                ${heading.level > 2 ? 'ml-4' : ''}
-              `}
-            >
-              {heading.text}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const MarkdownRenderer = ({ content }) => {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-    
-    const assignIds = () => {
-      const headings = containerRef.current.querySelectorAll('h1, h2, h3');
-      headings.forEach((heading, index) => {
-        heading.id = `heading-${index}`;
-        heading.style.cursor = 'pointer';
-        heading.onclick = () => {
-          const offset = 120;
-          const elementPosition = heading.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo({
-            top: elementPosition - offset,
-            behavior: 'smooth'
-          });
-        };
-      });
-    };
-
-    assignIds();
-    
-    const interval = setInterval(assignIds, 100);
-    setTimeout(() => clearInterval(interval), 2000);
-    
-    return () => clearInterval(interval);
-  }, [content]);
-
-  return (
-    <div className="prose prose-invert max-w-none 
-      prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white
-      prose-h1:text-3xl prose-h1:mb-8 prose-h1:mt-0
-      prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-b prose-h2:border-white/5 prose-h2:pb-4
-      prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-gray-200
-      prose-p:leading-7 prose-p:mb-6 prose-p:text-gray-300
-      prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300 prose-a:transition-colors
-      prose-strong:text-white prose-strong:font-semibold
-      prose-code:text-blue-300 prose-code:bg-blue-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:font-mono prose-code:text-sm prose-code:before:content-none prose-code:after:content-none
-      prose-pre:bg-[#0D1117] prose-pre:border prose-pre:border-white/5 prose-pre:rounded-xl prose-pre:p-0 prose-pre:shadow-lg prose-pre:my-8
-      prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-500/5 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-gray-300
-      prose-ul:list-disc prose-ul:pl-6 prose-ul:my-6 prose-ul:marker:text-blue-500
-      prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-6 prose-ol:marker:text-blue-500
-      prose-li:my-2 prose-li:text-gray-300
-      prose-img:rounded-xl prose-img:border prose-img:border-white/5 prose-img:shadow-xl prose-img:my-8"
-    >
-      <div ref={containerRef} dangerouslySetInnerHTML={{ __html: marked(content || '') }} />
     </div>
   );
 };
@@ -420,27 +299,27 @@ const CodeViewer = ({ content, language, isLoading }) => {
 
   if (isLoading) {
     return (
-      <div className="rounded-xl overflow-hidden border border-white/5 bg-[#0D1117] p-8 flex items-center justify-center">
+      <div className="rounded-xl overflow-hidden border border-[#222] bg-[#0a0a0a] p-8 flex items-center justify-center">
         <div className="flex items-center gap-3 text-gray-400">
-          <span className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-          Loading file content...
+          <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          Loading...
         </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl overflow-hidden border border-white/5 shadow-xl bg-[#0D1117] my-8 group">
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#161B22] border-b border-white/5">
+    <div className="rounded-xl overflow-hidden border border-[#222] bg-[#0a0a0a] my-8 group">
+      <div className="flex items-center justify-between px-4 py-2 bg-[#111] border-b border-[#222]">
         <div className="flex items-center gap-2">
            <Terminal className="w-4 h-4 text-gray-500" />
            <span className="text-xs font-mono text-gray-400 uppercase tracking-wider">{language}</span>
         </div>
         <button 
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-white/5 transition-colors text-xs text-gray-400 hover:text-white cursor-pointer"
+          className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-[#222] transition-colors text-xs text-gray-400 hover:text-white cursor-pointer"
         >
-          {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+          {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
           {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
@@ -461,16 +340,22 @@ const CodeViewer = ({ content, language, isLoading }) => {
 
 const HeaderCard = ({ skill }) => {
   return (
-    <div className="mb-8 p-1 rounded-lg border border-blue-500/20">
-      <div className="rounded-lg p-6 sm:p-7 bg-[#12121a] border border-white/5">
-        <div className="flex flex-col lg:flex-row gap-5 lg:gap-6 items-start">
-          <div className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 border border-blue-500/20 flex-shrink-0">
-            <SkillIcon name={skill.icon} className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10" />
+    <div className="mb-8 p-1">
+      <div className="rounded-xl p-8 bg-[#0a0a0a] border border-[#222]">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+          <div className="w-16 h-16 rounded-xl bg-[#111] border border-[#222] flex items-center justify-center text-white flex-shrink-0">
+            <SkillIcon name={skill.icon} className="w-8 h-8" />
           </div>
           
           <div className="flex-1 min-w-0 w-full">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight mb-2">{skill.name}</h1>
-            <p className="text-base sm:text-lg text-gray-400 leading-relaxed mb-5">
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl font-bold text-white tracking-tight">{skill.name}</h1>
+              <span className="px-2 py-0.5 rounded-full bg-[#1a1a1a] border border-[#333] text-xs font-medium text-gray-400">
+                v1.0.0
+              </span>
+            </div>
+            
+            <p className="text-lg text-gray-400 leading-relaxed mb-6 max-w-2xl">
               {skill.description}
             </p>
             
@@ -480,7 +365,7 @@ const HeaderCard = ({ skill }) => {
                 href={skill.repository}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white font-medium border border-white/10 transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#111] hover:bg-[#222] text-gray-300 font-medium border border-[#333] transition-all cursor-pointer text-sm"
               >
                 <Github className="w-4 h-4" />
                 View Source
@@ -488,22 +373,15 @@ const HeaderCard = ({ skill }) => {
             </div>
           </div>
 
-          <div className="hidden lg:flex flex-col gap-2.5 min-w-[140px] p-4 rounded-lg bg-[#0a0a0f] border border-white/5">
-             <div className="flex items-center justify-between text-sm">
-               <span className="text-gray-500 flex items-center gap-2">
-                 <Eye className="w-4 h-4" /> Views
-               </span>
-               <span className="text-blue-400 font-mono">{skill.stats?.views?.toLocaleString()}</span>
+          <div className="hidden lg:flex gap-8 px-6 py-4 rounded-xl bg-[#111] border border-[#222]">
+             <div className="text-center">
+               <div className="text-2xl font-bold text-white mb-1">{skill.stats?.views?.toLocaleString()}</div>
+               <div className="text-xs text-gray-500 uppercase tracking-wider font-medium">Views</div>
              </div>
-             <div className="flex items-center justify-between text-sm">
-               <span className="text-gray-500 flex items-center gap-2">
-                 <Download className="w-4 h-4" /> Installs
-               </span>
-               <span className="text-blue-400 font-mono">{skill.stats?.downloads?.toLocaleString()}</span>
-             </div>
-             <div className="w-full h-px bg-white/5 my-1"></div>
-             <div className="text-xs text-gray-600 text-center">
-               Updated recently
+             <div className="w-px bg-[#222]"></div>
+             <div className="text-center">
+               <div className="text-2xl font-bold text-white mb-1">{skill.stats?.downloads?.toLocaleString()}</div>
+               <div className="text-xs text-gray-500 uppercase tracking-wider font-medium">Installs</div>
              </div>
           </div>
         </div>
@@ -547,34 +425,44 @@ export default function SkillIDE({ skill }) {
   const language = extension === 'py' ? 'python' : extension === 'json' ? 'json' : extension === 'md' ? 'md' : 'bash';
   const isLoadingFile = content === null && fetching[selectedFile?.path];
 
+  // We are using a simpler layout structure that avoids fixed/calc heights
   return (
-    <div className="flex h-[calc(100vh-64px)] overflow-hidden">
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
+    <div className="flex flex-col lg:flex-row min-h-screen bg-[#000]">
+      
+      {/* Mobile Header Bar */}
+      <div className="lg:hidden flex items-center justify-between p-4 border-b border-[#222] bg-[#050505] sticky top-0 z-30">
+        <div className="flex items-center gap-2 text-sm font-medium text-white">
+          <SkillIcon name={skill.icon} className="w-5 h-5 text-gray-400" />
+          <span className="truncate max-w-[200px]">{skill.name}</span>
+        </div>
+        <button 
+          className="p-2 rounded-md bg-[#1a1a1a] text-white border border-[#333]"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <Menu size={20} />
+        </button>
+      </div>
 
-      <button 
-        className="lg:hidden fixed top-20 left-6 z-50 p-3 rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-400 transition-colors cursor-pointer"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        {isSidebarOpen ? <X /> : <Menu />}
-      </button>
-
+      {/* Sidebar - File Explorer */}
       <div className={`
-        fixed lg:static inset-y-0 left-0 z-40 w-72 bg-[#0a0a0f] border-r border-white/8 transform transition-transform duration-200 ease-out flex flex-col
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        fixed inset-y-0 left-0 z-50 w-72 bg-[#050505] border-r border-[#222] transform transition-transform duration-200 ease-out flex flex-col
+        lg:static lg:translate-x-0 lg:h-auto lg:min-h-screen
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="h-14 flex items-center px-5 border-b border-white/8 bg-[#0a0a0f]">
-          <span className="text-xs font-medium text-blue-500 uppercase tracking-wider flex items-center gap-2">
-            <Hash className="w-4 h-4 text-blue-500" />
+        <div className="h-14 flex items-center justify-between px-5 border-b border-[#222] bg-[#050505] flex-shrink-0">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
+            <Box className="w-4 h-4" />
             Explorer
           </span>
+          <button 
+            className="lg:hidden text-gray-500"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <X size={18} />
+          </button>
         </div>
         
-        <div className="flex-1 overflow-y-auto py-2 px-2 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto py-3 px-2 custom-scrollbar">
           {skill.fileTree.map((node) => (
             <FileTreeNode 
               key={node.name} 
@@ -588,14 +476,14 @@ export default function SkillIDE({ skill }) {
           ))}
         </div>
         
-        <div className="p-4 border-t border-white/8 bg-[#0a0a0f]">
+        <div className="p-4 border-t border-[#222] bg-[#050505] flex-shrink-0">
           <div className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-semibold">
+             <div className="w-8 h-8 rounded-md bg-[#1a1a1a] border border-[#333] text-gray-400 flex items-center justify-center text-xs font-bold">
                {skill.author?.substring(0,2).toUpperCase() || 'AU'}
              </div>
              <div className="flex-1 min-w-0">
-               <div className="text-sm font-medium text-gray-300 truncate">{skill.author || 'Author'}</div>
-               <a href={skill.repository} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:text-blue-400 truncate block">
+               <div className="text-sm font-medium text-white truncate">{skill.author || 'Author'}</div>
+               <a href={skill.repository} target="_blank" rel="noopener noreferrer" className="text-xs text-gray-500 hover:text-gray-300 truncate block">
                  @GitHub
                </a>
              </div>
@@ -603,55 +491,62 @@ export default function SkillIDE({ skill }) {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col min-w-0 relative">
-        <div className="h-14 border-b border-white/8 flex items-center justify-between px-4 sm:px-5 bg-[#0a0a0f]/95 sticky top-0 z-20">
-          <div className="flex items-center gap-2 text-sm overflow-hidden whitespace-nowrap mask-linear-fade">
-            <button 
-              className="text-gray-500 hover:text-blue-400 cursor-pointer transition-colors flex items-center gap-1 font-medium"
-              onClick={() => setSelectedFile(findFile(skill.fileTree, 'SKILL.md'))}
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span className="truncate max-w-[100px] sm:max-w-[150px]">{skill.name}</span>
-            </button>
-            <ChevronRight className="w-4 h-4 text-gray-600 flex-shrink-0" />
-            <span className="text-blue-400 flex items-center gap-2 font-medium bg-blue-500/10 px-2 py-1 rounded-md border border-blue-500/20 flex-shrink-0">
+      {/* Backdrop for mobile */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 relative bg-[#000]">
+        
+        {/* Breadcrumb Header - Sticky on Desktop only */}
+        <div className="h-14 border-b border-[#222] flex items-center justify-between px-4 sm:px-6 bg-[#000]/95 sticky top-0 z-20 backdrop-blur-sm flex-shrink-0">
+          <div className="flex items-center gap-2 text-sm overflow-hidden whitespace-nowrap">
+            <span className="text-gray-500 hidden sm:inline">Current File:</span>
+            <span className="text-white flex items-center gap-2 font-medium">
               <FileIcon name={selectedFile?.name || ''} />
-              <span className="truncate max-w-[150px] sm:max-w-[200px]">{selectedFile?.name}</span>
+              <span className="truncate max-w-[200px] sm:max-w-[400px]">{selectedFile?.name}</span>
             </span>
           </div>
           
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
             <a 
               href={`${skill.repository}/blob/main/${selectedFile?.path}`} 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-gray-500 hover:text-blue-400 flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="text-xs text-gray-500 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer font-medium"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">GitHub</span>
+              <span className="hidden sm:inline">Open in GitHub</span>
             </a>
             {content && <AICopyDropdown content={content} selectedFile={selectedFile} />}
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto custom-scrollbar scroll-smooth">
-          <div className="max-w-5xl mx-auto px-4 sm:px-5 py-5 sm:py-6">
+        {/* Scrollable Content */}
+        <div className="flex-1 p-4 sm:p-8">
+          <div className="max-w-5xl mx-auto">
             {selectedFile?.name === 'SKILL.md' && (
               <HeaderCard skill={skill} />
             )}
 
-            <div className="min-h-[60vh] pb-20">
+            <div className="min-h-[500px]">
               {isLoadingFile ? (
                  <div className="flex items-center justify-center py-20">
-                   <div className="flex items-center gap-3 text-blue-500">
-                     <span className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                     Fetching from GitHub...
+                   <div className="flex items-center gap-3 text-gray-500">
+                     <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                     Loading content...
                    </div>
                  </div>
                ) : content ? (
-                 <CodeViewer content={content} language={language} />
+                 <div className="animate-in fade-in duration-300">
+                   <CodeViewer content={content} language={language} />
+                 </div>
                ) : (
-                 <div className="text-center py-20 text-gray-500">
+                 <div className="text-center py-20 text-gray-500 border border-dashed border-[#222] rounded-xl">
                    Unable to load file content.
                  </div>
                )}
@@ -659,8 +554,6 @@ export default function SkillIDE({ skill }) {
           </div>
         </div>
       </div>
-
-      {content && <TableOfContents content={content} />}
     </div>
   );
 }

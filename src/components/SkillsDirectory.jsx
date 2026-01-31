@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import SkillCard from './SkillCard.jsx';
+import Hero from './Hero.jsx';
 import skills from '../data/skills.json';
 
 const containerStyle = {
   minHeight: 'calc(100vh - 57px)',
-  backgroundColor: '#0a0a0f',
+  backgroundColor: '#0a0a0a',
   color: '#e5e5e5',
-  paddingBottom: '40px'
+  paddingBottom: '60px'
 };
 
 const headerStyle = {
@@ -49,17 +50,17 @@ const descStyle = {
 
 const searchContainerStyle = {
   position: 'relative',
-  maxWidth: '440px',
+  maxWidth: '600px',
   margin: '0 auto',
   padding: '0 24px'
 };
 
 const searchInputStyle = {
   width: '100%',
-  padding: '14px 16px 14px 48px',
-  borderRadius: '12px',
-  border: '1px solid rgba(255,255,255,0.08)',
-  backgroundColor: 'rgba(255,255,255,0.03)',
+  padding: '16px 20px 16px 52px',
+  borderRadius: '10px',
+  border: '1px solid #2f2f2f',
+  backgroundColor: '#141414',
   color: '#fff',
   fontSize: '15px',
   outline: 'none',
@@ -77,17 +78,17 @@ const sectionHeaderStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  marginBottom: '20px',
-  paddingBottom: '12px',
-  borderBottom: '1px solid rgba(255,255,255,0.05)',
+  marginBottom: '24px',
+  paddingBottom: '16px',
+  borderBottom: '1px solid #1f1f1f',
   flexWrap: 'wrap',
-  gap: '12px'
+  gap: '16px'
 };
 
 const gridStyle = {
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-  gap: '12px'
+  gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+  gap: '20px'
 };
 
 const emptyStateStyle = {
@@ -122,47 +123,24 @@ export default function SkillsDirectory() {
 
   return (
     <div style={containerStyle} className="skills-directory">
-      <div style={headerStyle}>
-        <div style={badgeStyle}>
-          <span style={{ position: 'relative', display: 'flex', height: '6px', width: '6px' }}>
-            <span style={{
-              position: 'absolute',
-              inset: 0,
-              borderRadius: '50%',
-              backgroundColor: '#60a5fa',
-              opacity: 0.4,
-              animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite'
-            }} />
-            <span style={{
-              position: 'relative',
-              display: 'flex',
-              borderRadius: '50%',
-              height: '6px',
-              width: '6px',
-              backgroundColor: '#60a5fa'
-            }} />
-          </span>
-          Supercharge your AI Agents
-        </div>
-
-        <h1 style={titleStyle}>
-          <span style={{ color: '#60a5fa' }}>Polymarket</span>
-          <span style={{ color: '#52525b', marginLeft: '10px' }}>Skills</span>
-        </h1>
-
-        <p style={descStyle}>
-          The ultimate directory of MCP servers and tools for real-time prediction market data and trading automation.
-        </p>
-
+      {/* Hero Section */}
+      <Hero />
+      
+      {/* Search Section */}
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 32px 60px'
+      }}>
         <div style={searchContainerStyle}>
           <div style={{
             position: 'absolute',
             top: '50%',
-            left: '40px',
+            left: '44px',
             transform: 'translateY(-50%)',
             pointerEvents: 'none'
           }}>
-            <svg style={{ width: '18px', height: '18px', color: '#52525b' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg style={{ width: '20px', height: '20px', color: '#6f6f6f' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
             </svg>
           </div>
@@ -170,51 +148,49 @@ export default function SkillsDirectory() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search skills, tools, and integrations..."
+            placeholder="Search skills..."
             style={searchInputStyle}
             onFocus={(e) => {
-              e.target.style.borderColor = 'rgba(59, 130, 246, 0.4)';
-              e.target.style.backgroundColor = 'rgba(255,255,255,0.05)';
-              e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.08)';
+              e.target.style.borderColor = '#3f3f3f';
+              e.target.style.backgroundColor = '#1a1a1a';
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255,255,255,0.08)';
-              e.target.style.backgroundColor = 'rgba(255,255,255,0.03)';
-              e.target.style.boxShadow = 'none';
+              e.target.style.borderColor = '#2f2f2f';
+              e.target.style.backgroundColor = '#141414';
             }}
           />
         </div>
       </div>
 
       <div style={contentStyle}>
-        <div style={sectionHeaderStyle}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
+        <div style={sectionHeaderStyle} id="skills">
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
             <h2 style={{
-              fontSize: '16px',
+              fontSize: '20px',
               fontWeight: '600',
-              color: '#f4f4f5',
+              color: '#ffffff',
               margin: 0,
               letterSpacing: '-0.01em'
             }}>
-              {searchQuery ? 'Results' : 'Featured Skills'}
+              {searchQuery ? 'Search Results' : 'All Skills'}
             </h2>
-            <span style={{ fontSize: '11px', color: '#52525b' }}>
+            <span style={{ fontSize: '14px', color: '#6f6f6f' }}>
               {filteredSkills.length}
             </span>
           </div>
-          <div style={{ display: 'flex', gap: '4px', padding: '3px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.04)' }}>
+          <div style={{ display: 'flex', gap: '6px', padding: '4px', backgroundColor: '#141414', borderRadius: '8px', border: '1px solid #2f2f2f' }}>
             <button
               onClick={() => setSortBy('popular')}
               style={{
-                padding: '5px 10px',
-                borderRadius: '4px',
-                fontSize: '11px',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                fontSize: '14px',
                 border: 'none',
                 cursor: 'pointer',
-                backgroundColor: sortBy === 'popular' ? '#3b82f6' : 'transparent',
-                color: sortBy === 'popular' ? '#fff' : '#71717a',
+                backgroundColor: sortBy === 'popular' ? '#ffffff' : 'transparent',
+                color: sortBy === 'popular' ? '#000' : '#a0a0a0',
                 fontWeight: '500',
-                transition: 'all 0.15s'
+                transition: 'all 0.2s'
               }}
             >
               Popular
@@ -222,15 +198,15 @@ export default function SkillsDirectory() {
             <button
               onClick={() => setSortBy('newest')}
               style={{
-                padding: '5px 10px',
-                borderRadius: '4px',
-                fontSize: '11px',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                fontSize: '14px',
                 border: 'none',
                 cursor: 'pointer',
-                backgroundColor: sortBy === 'newest' ? '#3b82f6' : 'transparent',
-                color: sortBy === 'newest' ? '#fff' : '#71717a',
+                backgroundColor: sortBy === 'newest' ? '#ffffff' : 'transparent',
+                color: sortBy === 'newest' ? '#000' : '#a0a0a0',
                 fontWeight: '500',
-                transition: 'all 0.15s'
+                transition: 'all 0.2s'
               }}
             >
               Newest
@@ -241,8 +217,8 @@ export default function SkillsDirectory() {
         {filteredSkills.length > 0 ? (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '12px'
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: '20px'
           }}>
             {filteredSkills.map((skill) => (
               <SkillCard key={skill.id} skill={skill} />
@@ -251,28 +227,28 @@ export default function SkillsDirectory() {
         ) : (
           <div style={emptyStateStyle}>
             <div style={{
-              width: '44px',
-              height: '44px',
-              borderRadius: '10px',
-              backgroundColor: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.05)',
+              width: '56px',
+              height: '56px',
+              borderRadius: '12px',
+              backgroundColor: '#141414',
+              border: '1px solid #2f2f2f',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              margin: '0 auto 14px'
+              margin: '0 auto 16px'
             }}>
-              <svg style={{ width: '18px', height: '18px', color: '#52525b' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg style={{ width: '24px', height: '24px', color: '#6f6f6f' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
               </svg>
             </div>
-            <p style={{ color: '#71717a', fontSize: '13px', marginBottom: '8px' }}>
+            <p style={{ color: '#a0a0a0', fontSize: '15px', marginBottom: '12px' }}>
               No skills found for "{searchQuery}"
             </p>
             <button
               onClick={() => setSearchQuery('')}
               style={{
-                color: '#60a5fa',
-                fontSize: '12px',
+                color: '#ffffff',
+                fontSize: '14px',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
